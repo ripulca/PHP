@@ -22,7 +22,7 @@ function getResult($file_path){
 
     $games_amount=fgets($readStr); //считываем строку с кол-вом игр
     $games=array(); //создаем массив игр
-    for($i=0;$i<$games_amount;$i++){
+    for($i=0;$i<$games_amount;$i++){ //распределяем инфу по массиву
         list($id, $l_coeff, $r_coeff, $d_coeff, $result)=explode(' ', fgets($readStr));
         $games[$id]['L_coeff']=(float)$l_coeff;
         $games[$id]['R_coeff']=(float)$r_coeff;
@@ -36,7 +36,7 @@ function getResult($file_path){
             $result_sum+=(($bet['bet_sum']*$games[$id][$bet['bet_result'].'_coeff'])-$start_sum);   //высчитываем разницу по каждой ставке
         }
         else{
-            $result_sum-=$bet['bet_sum'];
+            $result_sum-=$bet['bet_sum'];  //иначе вычитаем проигрыш
         }
     }
     echo "Ответ: $result_sum";
