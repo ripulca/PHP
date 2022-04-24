@@ -5,103 +5,43 @@ if($argc>1){
     getResult($file);
 }
 
+function findRoots($all_data){
+    $lvl=0;         //уровни дерева
+    $num=1;         //счетчик прохода дерева
+    $result_count=0;      //массив использованных вершин
+    $result="";                 //строка с результатом
+    while(count($all_data)!=$result_count){  //пока не используем все узлы дерева
+        foreach($all_data as $data){        //проходимся по всем узлам
+            if($data[2]==$num){             //если счетчик совпал с порядком вхождения в узел
+                $result.=str_repeat("-", $lvl);         //выводим нужное кол-во "-"
+                $result.=$data[1]."\n";                 //выводим сам узел
+                $result_count++;       //добавляем узел в использованные
+                $lvl++;                 //опускаемся на уровень ниже
+                $num++;                 //увеличиваем счетчик
+                break;
+            }
+            else if($data[3]==$num){             //если счетчик совпал с порядком выхода из узла
+                $lvl--;                            //поднимаемся на уровень дерева выше
+                $num++;                             //увеличиваем счетчик
+                break;
+            }
+        }
+    }
+    return $result;
+}
+
 function getResult($file_path){
     error_reporting(E_ERROR | E_PARSE);
-    $read=fopen($file_path, 'r');
+    $read=fopen($file_path, 'r');       //открываем файл
     $all_data=array();
-    $array_lvl=-1;
-    $num=1;
-    $result_array=array();
-    $result="";
-    $last_node=null;
 
     while(!feof($read)){
         $str=trim(fgets($read), " \n\r"); //считываем 1 строку
-        // var_dump($str);
         if(!empty($str)){
             $node_data=explode(" ",$str);
-            $node_id=$node_data[0];
-            $node_name=$node_data[1];
-            $node_enter=$node_data[2];
-            $node_exit=$node_data[3];
-            // echo $node_enter." ".$node_exit."\n";
-            // echo $node_enter." ".$last_node[3]."\n";
-
-            if($num<=$node_enter){
-                if($array_lvl!=-1){
-                    for($i=0;$i<count($all_data[$array_lvl]);$i++){
-                        if($all_data[$array_lvl][$i][2]==($node_enter-1)){
-                            $node_data['parent_node']=$all_data[$array_lvl][$i][1];
-                            break;
-                        }
-                    }
-                }
-                else{
-                    $node_data['parent_node']=NULL;
-                }
-                $array_lvl++;
-                if(gettype($all_data[$array_lvl])!="array"){
-                    $all_data[$array_lvl]=array();
-                }
-                array_push($all_data[$array_lvl], $node_data);
-                $num+=(($node_enter-$num)+1);
-            }
-            else if($num==$node_exit){
-                $array_lvl--;
-                if($array_lvl!=-1){
-                    for($i=0;$i<count($all_data[$array_lvl]);$i++){
-                        if($all_data[$array_lvl][$i][3]==($node_exit+1)){
-                            $node_data['parent_node']=$all_data[$array_lvl][$i][1];
-                            break;
-                        }
-                    }
-                }
-                else{
-                    $node_data['parent_node']=NULL;
-                }
-                array_push($all_data[$array_lvl], $node_data);
-                $num++;
-            }
-            else if($last_node[3]==($node_enter-1)){
-                if($array_lvl>0){
-                    $node_data['parent_node']=$last_node[1];
-                }
-                else{
-                    $node_data['parent_node']=NULL;
-                }
-                array_push($all_data[$array_lvl], $node_data);
-            }
-            $last_node=$node_data;
+            array_push($all_data, $node_data); //переносим все данные в общий массив
         }
     }
-    var_dump($all_data);
-    for($i=0;$i<count($all_data);$i++){
-        foreach($all_data[$i] as $data){
-            $new_str="";
-            for($j=0;$j<$i;$j++){
-                $new_str.="-";
-            }
-            $new_str.=$data[1]."\n";
-            if($i>0){
-                $after=$data['parent_node']."\n";
-                // echo "AFTER= ".$after."\n";
-                // echo "NEW= ".$new_str."\n";
-                for($j=0;$j<count($result_array);$j++){
-                    if(str_contains($result_array[$j],$after)){
-                        array_splice($result_array, $j+1, 0, $new_str);
-                        break;
-                    }
-                }
-            }
-            else if($i==0){
-                array_push($result_array, $data[1]."\n");
-            }
-        }
-    }
-        var_dump($result_array);
-    // for($i=0;$i<count($result_array);$i++){
-    //     $result.=$result_array[$i];
-    // }
-    // print_r($result);
-    // return $result;
+    $result=findRoots($all_data);
+    return $result;
 }

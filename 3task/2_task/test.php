@@ -13,16 +13,13 @@ foreach(array_combine($inputFiles,$outputFiles) as $input => $output) {
             $right_answer.=trim($str,"\r\t\n")."\n";
         } 
     }
-    if($num==3){
     $prog_answer = getResult($input); //получаем результат программы
+    echo "\nТест $num: \n";
+    if ($right_answer == $prog_answer) { //сравниваем правильный и полученный результаты
+        echo "Ок\n";
+        echo "Верный ответ: $right_answer\nОтвет программы: $prog_answer\n";
+    } else {
+        echo "Ошибка\nВерный ответ: $right_answer\nОтвет программы: $prog_answer\n";
     }
-    // break;
-    // echo "\nТест $num: \n";
-    // if ($right_answer == $prog_answer) { //сравниваем правильный и полученный результаты
-    //     echo "Ок\n";
-    //     echo "Верный ответ: $right_answer\nОтвет программы: $prog_answer\n";
-    // } else {
-    //     echo "Ошибка\nВерный ответ: $right_answer\nОтвет программы: $prog_answer\n";
-    // }
     $num++;
 }
