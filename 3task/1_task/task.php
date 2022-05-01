@@ -18,17 +18,17 @@ function getResult($file_path){
             $banner_id=$banner_data[0];
             $banner_datetime=explode(" ", $banner_data[1]);
             $mark=0;
-            foreach($all_banners_data as &$banner){
-                if($banner['id']==$banner_id){
+            foreach($all_banners_data as &$banner){ 
+                if($banner['id']==$banner_id){      //если баннер уже есть в массиве
                     $banner['count']++;
                     $another_datetime=$banner['datetime'][0]." ".$banner['datetime'][1];
-                    if($banner_datetime>$another_datetime){
-                        $banner['datetime']=$banner_datetime;
+                    if($banner_datetime>$another_datetime){     //если время больше чем имеющееся
+                        $banner['datetime']=$banner_datetime; //обновляем
                     }
                     $mark=1;
                 }
             }
-            if($mark==0){
+            if($mark==0){               //если баннера еще не было в массиве
                 $all_banners_data[$banners_num]['count']=1;
                 $all_banners_data[$banners_num]['id']=$banner_id;
                 $all_banners_data[$banners_num]['datetime']=$banner_datetime;
