@@ -14,9 +14,10 @@ function findStatistics($all_data){
     }
     for($i=0;$i<pow(10, 6); $i++){
         $rand_int=rand(0, count($stat_array));
-        $banner_id=$stat_array[$rand_int][0];
+        // echo $stat_array[$rand_int]."\n";
+        $banner_id=$stat_array[$rand_int];
         foreach($all_data as &$data){
-            echo $banner_id." ".$data[0]."\n";
+            // echo $banner_id." ".$data[0]."\n";
             if($banner_id==$data[0]){
                 $data[2]++;
             }
