@@ -56,6 +56,6 @@
 }
 .tovar-detail__row-1 .ui-product-elements .ui-product-elements__product-equal {
   border: none;
-  padding-left: 0;
   padding-top: 0;
+  padding-left: 0;
 }
