@@ -78,17 +78,17 @@ function getResult($file_path){
         $arr=preg_replace('/margin-left:(-?[0-9]{1,10}p?x?;?)/', '', $arr);
         $end_match="";
         if(isset($matches_1)&&isset($matches_2)&&isset($matches_4)&&isset($matches_3)){         //есть все стили
-            if($matches_1==$matches_2&&$matches_3==$matches_4&&$matches_1==$matches_3&&$matches_2==$matches_4){
+            if($matches_1==$matches_2&&$matches_3==$matches_4&&$matches_1==$matches_3&&$matches_2==$matches_4){ //одинаковый отступ везде
                 $arr=preg_replace('/margin:/', 'margin:'.$matches_1.';', $arr);
             }
-            else if($matches_1==$matches_3&&$matches_2==$matches_4){
+            else if($matches_1==$matches_3&&$matches_2==$matches_4){    //по вертикали и горизонтали
                 $arr=preg_replace('/margin:/', 'margin:'.$matches_1.' '.$matches_2.';', $arr);
             }
-            else if($matches_1!=$matches_3&&$matches_2==$matches_4){
+            else if($matches_1!=$matches_3&&$matches_2==$matches_4){    //сверху, по горизонтали и снизу
                 $arr=preg_replace('/margin:/', 'margin:'.$matches_1.' '.$matches_2.' '.$matches_3.';', $arr);
             }
             else{
-                $arr=preg_replace('/margin:/', 'margin:'.$matches_1.' '.$matches_2.' '.$matches_3.' '.$matches_4.';', $arr);
+                $arr=preg_replace('/margin:/', 'margin:'.$matches_1.' '.$matches_2.' '.$matches_3.' '.$matches_4.';', $arr);    //все 4 отступа разные
             }
         }
         else if(!isset($matches_1)&&!isset($matches_2)&&!isset($matches_4)&&!isset($matches_3)){        //нет ни одного стиля
