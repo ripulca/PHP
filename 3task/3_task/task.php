@@ -5,26 +5,26 @@ if($argc>1){
     getResult($file);
 }
 
-function findStatistics($all_data){
+function findStatistics($all_data){ //работает по принципу прямой с отрезками разного размера. больше вероятность - больше отрезок
     $stat_array=array();
     foreach($all_data as $data){
         for($i=0;$i<$data[1];$i++){
-            array_push($stat_array, $data[0]);
+            array_push($stat_array, $data[0]);  //заполняем массив-прямую верятностными отрезками
         }
     }
-    for($i=0;$i<pow(10, 6); $i++){
-        $rand_int=rand(0, count($stat_array));
+    for($i=0;$i<pow(10, 6); $i++){  //эмулируем показ n баннеров
+        $rand_int=rand(0, count($stat_array));  //выбираем случайное число
         // echo $stat_array[$rand_int]."\n";
-        $banner_id=$stat_array[$rand_int];
-        foreach($all_data as &$data){
+        $banner_id=$stat_array[$rand_int];  //получаем значение отрезка в диапазоне, куда попало число
+        foreach($all_data as &$data){   //поиск по начальным данным
             // echo $banner_id." ".$data[0]."\n";
-            if($banner_id==$data[0]){
+            if($banner_id==$data[0]){   //находим нужный баннер - увеличиваем кол-во показов
                 $data[2]++;
             }
         }
     }
     foreach($all_data as &$data){
-        $data[2]=(float)$data[2]/pow(10, 6);
+        $data[2]=(float)$data[2]/pow(10, 6);    //считаем саму статистику для каждого баннера
     }
     return $all_data;
 }
@@ -45,7 +45,7 @@ function getResult($file_path){
     $result_arr=findStatistics($all_data);
     // var_dump($result_arr);
     $result='';
-    foreach($result_arr as $res){
+    foreach($result_arr as $res){   //вывод
         $result.=$res[0].' '.$res[2]."\n";
     }
     return $result;
