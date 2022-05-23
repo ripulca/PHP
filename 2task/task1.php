@@ -19,4 +19,4 @@ function task1($input){
 		$element = "/" . $element . "/";
 	}
 	echo preg_replace($matches[0], $new_res, $input); //производим поиск нужного элемента строки по регулярке и заменяем на новый
-}
+} 
