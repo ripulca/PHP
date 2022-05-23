@@ -24,4 +24,4 @@ function task2($input){
 	    $element="http://sozd.parlament.gov.ru/bill/" . $match[0];
 	}
 	echo preg_replace($new_res, $matches[0], $input); //производим поиск нужного элемента строки по регулярке и заменяем на новый
-}
+} 
