@@ -4,9 +4,6 @@ if($argc>1){
     $file=$argv[1];
     getResult($file);
 }
-else{
-    echo "Нет данных";
-}
 
 function getResult($file_path){
     $readStr=fopen($file_path, 'r');
